@@ -24,8 +24,7 @@ app.use(express.static("public"));
 app.get("/posts/:topic", function(req, res){
   // console.log(req.params.topic);
   console.log(req.params);
-})
-
+});
 
 app.get("/", function(req, res){
   res.render("home",{publish_post:posts});
@@ -51,7 +50,7 @@ const post= {
 };
 
 posts.push(post);
-console.log(posts);
+// console.log(posts);
 res.redirect("/");
 
 });
