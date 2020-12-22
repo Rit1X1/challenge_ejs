@@ -21,10 +21,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 
-app.get("/posts/:topic", function(req, res){
-  // console.log(req.params.topic);
-  console.log(req.params);
-});
+
 
 app.get("/", function(req, res){
   res.render("home",{publish_post:posts});
@@ -43,18 +40,37 @@ app.get("/compose",(req, res) =>{
 });
 
 app.post("/compose",(req, res) => {
-  
+
 const post= {
   title: req.body.post_title,
   content: req.body.post_text
 };
 
 posts.push(post);
-// console.log(posts);
 res.redirect("/");
 
 });
 
+
+app.get("/posts/:topic", function(req, res){
+  // console.log(req.params.topic);
+  // console.log(req.params);
+  const requested = req.params.topic;
+
+  posts.forEach(function(element){
+    const title = element.title;
+    const content = element.content;
+    if(requested === title){
+      console.log("Matched");
+      res.render("post",{postTitle:title,postContent:content});
+    }
+    else{
+      res.render("post",{postTitle:"Not Found",postContent:"We dont have any blog with title same as requested title."});
+    }
+  });
+ 
+
+});
 
 app.listen(3000, function() {
   console.log("Server started on port 3000");
